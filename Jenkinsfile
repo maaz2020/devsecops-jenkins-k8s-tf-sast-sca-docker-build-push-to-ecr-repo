@@ -8,7 +8,7 @@ pipeline {
     stage('Compile and Run Sonar Analysis') {
       steps {
         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-          sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=awsfullofbugsapp -Dsonar.organization=awsfullofbugsapp -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN'
+          sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=awsfullofbugsapp -Dsonar.organization=awsfullofbugsapp -Dsonar.host.url=https://sonarcloud.io -Dsonar.token=$SONAR_TOKEN'
         }
       }
     }
@@ -25,7 +25,7 @@ pipeline {
       steps { 
         withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
           script {
-            app = docker.build("asg")
+            app = docker.build("mse")
           }
         }
       }
