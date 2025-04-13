@@ -1,7 +1,7 @@
 pipeline {
   agent any
   tools { 
-    maven 'Maven_3_6_3'  
+    maven 'Maven_3_8_7'  
   }
   
   stages {
@@ -25,7 +25,7 @@ pipeline {
       steps { 
         withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
           script {
-            app = docker.build("MSE")
+            app = docker.build("mse")
           }
         }
       }
@@ -34,7 +34,7 @@ pipeline {
     stage('Push') {
       steps {
         script {
-          docker.withRegistry('https://772440236386.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws-credentials') {
+          docker.withRegistry('https://772440236386.dkr.ecr.us-east-1.amazonaws.com/mse', 'ecr:us-east-1:aws-credentials') {
             app.push("latest")
           }
         }
